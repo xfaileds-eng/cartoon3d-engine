@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "engine-contracts/schemas/capability_card.schema.json",
+  "title": "capability_card",
+  "description": "Thẻ năng lực: nhạc trưởng chỉ đọc thẻ này để phân vai engine.",
+  "type": "object",
+  "required": ["engine_id", "best_for", "avoid_for", "min_ms", "max_ms", "aspects", "avg_render_s_per_s", "cost_per_s", "block_risk", "needs"],
+  "properties": {
+    "engine_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "best_for": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "avoid_for": {"type": "array", "items": {"type": "string"}},
+    "min_ms": {"type": "integer", "minimum": 1},
+    "max_ms": {"type": "integer", "minimum": 1},
+    "aspects": {"type": "array", "items": {"type": "string", "enum": ["16:9", "9:16"]}, "minItems": 1},
+    "avg_render_s_per_s": {"type": "number", "minimum": 0},
+    "cost_per_s": {"type": "number", "minimum": 0},
+    "block_risk": {"type": "string", "enum": ["none", "low", "medium", "high"]},
+    "needs": {"type": "array", "items": {"type": "string", "enum": ["image_provider", "video_provider", "model3d_provider", "llm_provider", "data_provider"]}},
+    "notes": {"type": "string"}
+  }
+}

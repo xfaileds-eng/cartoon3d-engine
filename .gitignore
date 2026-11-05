@@ -3,6 +3,11 @@ out/
 *.mp4
 *.mov
 
+# cấu hình theo máy và bí mật
+providers.yaml
+.env
+.env.*
+
 # node / python
 node_modules/
 __pycache__/

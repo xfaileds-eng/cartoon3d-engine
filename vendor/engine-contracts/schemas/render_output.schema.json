@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "engine-contracts/schemas/render_output.schema.json",
+  "title": "render_output",
+  "description": "Kết quả một engine trả về khâu ghép cho một chunk.",
+  "type": "object",
+  "required": ["chunk_id", "engine_id", "status", "video_path", "frames", "fps", "duration_ms", "qa_report", "cost"],
+  "properties": {
+    "chunk_id": {"type": "string", "pattern": "^[0-9]{9}_[0-9]{3}$"},
+    "engine_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "status": {"type": "string", "enum": ["done", "rejected", "rerouted", "failed"]},
+    "video_path": {"type": ["string", "null"]},
+    "frames": {"type": "integer", "minimum": 0},
+    "fps": {"type": "integer", "minimum": 1},
+    "duration_ms": {"type": "integer", "minimum": 1},
+    "reason": {"type": "string"},
+    "qa_report": {
+      "type": "object",
+      "required": ["passed", "gates"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "passed"],
+            "properties": {
+              "id": {"type": "string"},
+              "name": {"type": "string"},
+              "passed": {"type": "boolean"},
+              "details": {}
+            }
+          }
+        },
+        "contact_sheet": {"type": "string"}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": ["usd"],
+      "properties": {
+        "usd": {"type": "number", "minimum": 0},
+        "render_s": {"type": "number", "minimum": 0}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "done"}}},
+     "then": {"properties": {"video_path": {"type": "string"}, "frames": {"minimum": 1}, "qa_report": {"properties": {"passed": {"const": true}}}}}}
+  ]
+}

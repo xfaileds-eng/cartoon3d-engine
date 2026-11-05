@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "engine-contracts/schemas/chunk_input.schema.json",
+  "title": "chunk_input",
+  "description": "Chunk nhạc trưởng giao cho một engine. chunk_id = mốc mili-giây bắt đầu (9 chữ số) + số thứ tự (3 chữ số).",
+  "type": "object",
+  "required": ["chunk_id", "start_ms", "end_ms", "text", "words", "emotion", "speech_rate", "sensitivity", "aspect", "look_id", "cast_refs", "data_refs"],
+  "additionalProperties": false,
+  "properties": {
+    "chunk_id": {"type": "string", "pattern": "^[0-9]{9}_[0-9]{3}$"},
+    "start_ms": {"type": "integer", "minimum": 0},
+    "end_ms": {"type": "integer", "minimum": 1},
+    "text": {"type": "string", "minLength": 1},
+    "words": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["w", "start_ms", "end_ms"],
+        "additionalProperties": false,
+        "properties": {
+          "w": {"type": "string", "minLength": 1},
+          "start_ms": {"type": "integer", "minimum": 0},
+          "end_ms": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "emotion": {"type": "string", "pattern": "^[a-z_]+$"},
+    "speech_rate": {"type": "string", "enum": ["slow", "normal", "fast"]},
+    "sensitivity": {"type": "string", "enum": ["none", "low", "medium", "high"]},
+    "aspect": {"type": "string", "enum": ["16:9", "9:16"]},
+    "look_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "cast_refs": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}, "uniqueItems": true},
+    "data_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

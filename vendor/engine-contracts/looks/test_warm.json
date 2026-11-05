@@ -1,0 +1,14 @@
+{
+  "look_id": "test_warm",
+  "palette": {"bg": "#2b211c", "accent": "#f2a541", "text": "#fff4e0", "alert": "#e4572e", "shadow": "#140f0c"},
+  "font": {"title": "DejaVu Sans Bold", "body": "DejaVu Sans", "size_scale": 1.0},
+  "motion": {"default_interp": "ease_in_out", "transition_ms": 400, "overshoot": 0.1},
+  "texture": {"grain": 0.05, "vignette": 0.2},
+  "emotion_map": {
+    "neutral": {"hue_shift": 0, "tempo": 1.0, "cut_rate": 1.0},
+    "curious": {"hue_shift": 4, "tempo": 1.0, "cut_rate": 1.0},
+    "tense": {"hue_shift": -12, "tempo": 1.2, "cut_rate": 1.5},
+    "sad": {"hue_shift": -8, "tempo": 0.8, "cut_rate": 0.7}
+  },
+  "grade": {"lut": "luts/test_warm.cube"}
+}

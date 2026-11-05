@@ -1,0 +1,21 @@
+{
+  "engine_id": "cartoon3d",
+  "best_for": [
+    "câu chuyện có nhân vật lặp lại qua nhiều tập",
+    "cảnh nhạy cảm của dòng vụ án: ám chỉ bằng bóng, đồ vật tượng trưng, sơ đồ nhìn từ trên",
+    "thời lượng khớp tuyệt đối với SRT"
+  ],
+  "avoid_for": [
+    "người thật, bối cảnh đẹp cần cảm xúc mạnh",
+    "số liệu và biểu đồ",
+    "công thức, sơ đồ logic"
+  ],
+  "min_ms": 500,
+  "max_ms": 30000,
+  "aspects": ["16:9", "9:16"],
+  "avg_render_s_per_s": 10.5,
+  "cost_per_s": 0.0,
+  "block_risk": "none",
+  "needs": ["llm_provider"],
+  "notes": "Port tuỳ chọn: model3d_provider, image_provider (chưa dùng ở P1). avg_render_s_per_s đo 05/11/2026: chunk 4,2 s ở 1920x1080 mất 44 s trên Chromium SwiftShader (CPU, máy cloud, không GPU). Máy có GPU sẽ nhanh hơn: đo lại rồi sửa."
+}

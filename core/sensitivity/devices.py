@@ -8,22 +8,22 @@ from typing import Any
 TABLE: dict[str, Any] = json.loads(Path(__file__).with_name("table.json").read_text(encoding="utf-8"))
 
 
-def _level(level: int) -> dict[str, Any]:
+def _level(level: str) -> dict[str, Any]:
     try:
-        return TABLE["levels"][str(int(level))]
+        return TABLE["levels"][level]
     except KeyError:
-        raise ValueError(f"mức nhạy cảm {level} không có trong bảng (0..3)") from None
+        raise ValueError(f"mức nhạy cảm '{level}' không có trong bảng {sorted(TABLE['levels'])}") from None
 
 
-def allowed_devices(level: int) -> list[str]:
+def allowed_devices(level: str) -> list[str]:
     return list(_level(level)["allowed"])
 
 
-def default_device(level: int) -> str:
+def default_device(level: str) -> str:
     return _level(level)["default"]
 
 
-def is_allowed(level: int, device: str) -> bool:
+def is_allowed(level: str, device: str) -> bool:
     return device in _level(level)["allowed"]
 
 

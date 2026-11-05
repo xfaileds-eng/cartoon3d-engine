@@ -28,8 +28,6 @@
     "look_at": "target_empty",
     "interp": "ease_in_out"
   },
-  "captions": {
-    "mode": "word_pop"
-  },
+  "look_id": "test_warm",
   "sensitivity_device": "none"
 }

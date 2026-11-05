@@ -5,7 +5,7 @@
  * trong bundle (do Python tính, cổng G5 đã kiểm). Ở đây chỉ dựng hình, vật liệu theo phong cách,
  * vung tay chân theo pha bước, và áp thủ pháp nhạy cảm.
  *
- * Giao diện cho capture.cjs:  window.c3d.ready (bool) · window.c3d.renderFrame(i) → dataURL PNG
+ * Giao diện chụp khung (dùng chung với chart-engine): window.capture.ready · .frames · .renderFrame(i) → dataURL PNG
  */
 import * as THREE from 'three';
 
@@ -395,7 +395,7 @@ function renderFrame(i) {
   return canvas.toDataURL('image/png');
 }
 
-window.c3d = {
+window.capture = {
   ready: true,
   frames: R.n_frames,
   width: R.width,

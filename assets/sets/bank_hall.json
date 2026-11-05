@@ -2,6 +2,15 @@
   "asset_id": "bank_hall",
   "kind": "set",
   "version": 1,
+  "keywords": [
+    "bank",
+    "banker",
+    "teller",
+    "counter",
+    "ngân hàng",
+    "quầy",
+    "giao dịch"
+  ],
   "bounds": {
     "min": [
       -8,
@@ -54,13 +63,13 @@
     "dolly": {
       "from": [
         0,
-        2.0,
+        2.1,
         4.0
       ],
       "to": [
         0,
-        1.7,
-        -2.5
+        1.8,
+        -0.8
       ],
       "look_at": "counter_mark"
     },
@@ -255,6 +264,108 @@
       "segments": 32,
       "color": "#fff3cf",
       "emissive": "#ffe49a"
+    },
+    {
+      "name": "cheese_counter_a",
+      "shape": "cylinder",
+      "position": [
+        -1.6,
+        1.31,
+        -6.0
+      ],
+      "radius": 0.32,
+      "height": 0.32,
+      "segments": 32,
+      "color": "#f2c230"
+    },
+    {
+      "name": "cheese_counter_b",
+      "shape": "cylinder",
+      "position": [
+        1.7,
+        1.31,
+        -6.0
+      ],
+      "radius": 0.32,
+      "height": 0.32,
+      "segments": 32,
+      "color": "#f6d35b"
+    },
+    {
+      "name": "cheese_counter_c",
+      "shape": "cylinder",
+      "position": [
+        1.7,
+        1.63,
+        -6.0
+      ],
+      "radius": 0.26,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#e9b52a"
+    },
+    {
+      "name": "gold_bar_a",
+      "shape": "box",
+      "position": [
+        -0.35,
+        1.21,
+        -5.95
+      ],
+      "size": [
+        0.42,
+        0.12,
+        0.2
+      ],
+      "color": "#d4a017",
+      "emissive": "#5a4300"
+    },
+    {
+      "name": "gold_bar_b",
+      "shape": "box",
+      "position": [
+        0.15,
+        1.21,
+        -5.95
+      ],
+      "size": [
+        0.42,
+        0.12,
+        0.2
+      ],
+      "color": "#d4a017",
+      "emissive": "#5a4300"
+    },
+    {
+      "name": "gold_bar_c",
+      "shape": "box",
+      "position": [
+        -0.1,
+        1.33,
+        -5.95
+      ],
+      "size": [
+        0.42,
+        0.12,
+        0.2
+      ],
+      "color": "#e0b222",
+      "emissive": "#5a4300"
+    },
+    {
+      "name": "vault_sign",
+      "shape": "box",
+      "position": [
+        0,
+        2.9,
+        -11.85
+      ],
+      "size": [
+        3.2,
+        0.5,
+        0.06
+      ],
+      "color": "#2f4f3a"
     }
   ]
 }

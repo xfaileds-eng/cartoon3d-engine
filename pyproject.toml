@@ -1,11 +1,12 @@
 [project]
 name = "cartoon3d-engine"
-version = "0.1.0"
-description = "Engine sinh video hoạt hình 3D dựng bằng code cho video engine: nhận chunk có timeline SRT, trả video đúng thời lượng."
+version = "0.2.0"
+description = "Engine sinh video hoạt hình 3D dựng bằng code trong roster của video engine: nhận chunk_input, trả render_output đúng thời lượng."
 requires-python = ">=3.11"
 dependencies = [
   "jsonschema>=4.20",
   "Pillow>=10",
+  "PyYAML>=6",
 ]
 
 [project.optional-dependencies]
@@ -17,8 +18,7 @@ cartoon3d = "core.pipeline:main"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
-markers = ["e2e: cần node + playwright + Chromium + ffmpeg"]
 
 [tool.setuptools]
-packages = ["core", "core.shot_planner", "core.camera_library", "core.sensitivity", "core.captions", "core.qa_gates",
+packages = ["core", "core.shot_planner", "core.camera_library", "core.sensitivity", "core.look_adapter", "core.qa_gates",
             "backends", "backends.threejs", "backends.blender"]

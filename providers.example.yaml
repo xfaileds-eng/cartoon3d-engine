@@ -1,0 +1,5 @@
+# Chép thành providers.yaml (không đưa lên Git) và chọn adapter theo từng máy.
+# Khoá API để trong .env, không để ở đây. Adapter thật nằm ở repo provider-adapters.
+llm_provider: [claude_api]     # shot_planner nhờ Claude sửa bản nháp shot; thiếu adapter thì dùng bản nháp
+model3d_provider: []           # tuỳ chọn (P2+): mô hình 3D sinh bằng AI, kèm giấy phép
+image_provider: []             # tuỳ chọn

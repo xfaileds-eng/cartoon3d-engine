@@ -1,14 +1,70 @@
 {
   "$comment": "Thư viện chuyển động máy quay có tên. Tham số của từng move và mặc định; set có thể ghi đè bằng camera_presets.",
   "moves": {
-    "dolly":    {"params": ["from", "to", "look_at"], "defaults": {"interp": "ease_in_out", "fov_deg": 45}},
-    "orbit":    {"params": ["center", "radius", "height", "start_deg", "end_deg", "look_at"], "defaults": {"interp": "linear", "fov_deg": 45}},
-    "track_to": {"params": ["target", "offset"], "defaults": {"interp": "linear", "fov_deg": 40}},
-    "cut":      {"params": ["positions", "cut_at_ms", "look_at"], "defaults": {"interp": "constant", "fov_deg": 45}}
+    "dolly": {
+      "params": [
+        "from",
+        "to",
+        "look_at"
+      ],
+      "defaults": {
+        "interp": "ease_in_out",
+        "fov_deg": 45
+      }
+    },
+    "orbit": {
+      "params": [
+        "center",
+        "radius",
+        "height",
+        "start_deg",
+        "end_deg",
+        "look_at"
+      ],
+      "defaults": {
+        "interp": "linear",
+        "fov_deg": 45
+      }
+    },
+    "track_to": {
+      "params": [
+        "target",
+        "offset"
+      ],
+      "defaults": {
+        "interp": "linear",
+        "fov_deg": 40
+      }
+    },
+    "cut": {
+      "params": [
+        "positions",
+        "cut_at_ms",
+        "look_at"
+      ],
+      "defaults": {
+        "interp": "constant",
+        "fov_deg": 45
+      }
+    }
   },
-  "interp": ["linear", "ease_in", "ease_out", "ease_in_out", "constant", "bounce"],
+  "interp": [
+    "linear",
+    "ease_in",
+    "ease_out",
+    "ease_in_out",
+    "constant",
+    "bounce"
+  ],
   "emotion_to_move": {
-    "neutral": "dolly", "calm": "dolly", "tense": "orbit", "reveal": "track_to",
-    "chaos": "cut", "sad": "orbit", "funny": "track_to"
-  }
+    "neutral": "dolly",
+    "calm": "dolly",
+    "tense": "orbit",
+    "reveal": "track_to",
+    "chaos": "cut",
+    "sad": "orbit",
+    "funny": "track_to",
+    "curious": "dolly"
+  },
+  "default_move": "dolly"
 }

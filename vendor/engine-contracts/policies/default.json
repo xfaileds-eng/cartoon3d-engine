@@ -1,0 +1,5 @@
+{
+  "$comment": "Thử lại có giãn cách; cooldown theo nhà cung cấp (Gemini 2 giờ); chuỗi dự phòng khai trong providers.yaml.",
+  "retry": {"max_attempts": 3, "backoff_s": [2, 4, 8]},
+  "cooldown_s": {"default": 60, "gemini_web": 7200, "mock": 7200}
+}

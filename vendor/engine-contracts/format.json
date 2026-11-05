@@ -1,0 +1,10 @@
+{
+  "$comment": "Tạm thời theo brief: 30 fps, 1920x1080 cho 16:9, 1080x1920 cho 9:16. Đổi khi chốt chuẩn đầu ra.",
+  "fps": 30,
+  "codec": "h264",
+  "pix_fmt": "yuv420p",
+  "aspects": {
+    "16:9": {"width": 1920, "height": 1080},
+    "9:16": {"width": 1080, "height": 1920}
+  }
+}

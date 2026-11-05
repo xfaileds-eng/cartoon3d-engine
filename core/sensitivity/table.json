@@ -1,17 +1,70 @@
 {
-  "$comment": "Mức nhạy cảm của chunk → thủ pháp hình ảnh được phép (G7) và thủ pháp mặc định shot_planner chọn. Ám chỉ thay vì phô bày.",
+  "$comment": "Mức nhạy cảm của chunk (none/low/medium/high — tạm theo engine-contracts) → thủ pháp được phép (G7) và mặc định. Ám chỉ thay vì phô bày.",
   "levels": {
-    "0": {"label": "không nhạy cảm", "allowed": ["none"], "default": "none"},
-    "1": {"label": "nhẹ",            "allowed": ["none", "cut_away", "symbol_object"], "default": "cut_away"},
-    "2": {"label": "trung bình",     "allowed": ["cut_away", "silhouette", "symbol_object", "top_down_diagram"], "default": "silhouette"},
-    "3": {"label": "nặng",           "allowed": ["symbol_object", "top_down_diagram", "offscreen_sound"], "default": "offscreen_sound"}
+    "none": {
+      "label": "không nhạy cảm",
+      "allowed": [
+        "none"
+      ],
+      "default": "none"
+    },
+    "low": {
+      "label": "nhẹ",
+      "allowed": [
+        "none",
+        "cut_away",
+        "symbol_object"
+      ],
+      "default": "cut_away"
+    },
+    "medium": {
+      "label": "trung bình",
+      "allowed": [
+        "cut_away",
+        "silhouette",
+        "symbol_object",
+        "top_down_diagram"
+      ],
+      "default": "silhouette"
+    },
+    "high": {
+      "label": "nặng",
+      "allowed": [
+        "symbol_object",
+        "top_down_diagram",
+        "offscreen_sound"
+      ],
+      "default": "offscreen_sound"
+    }
   },
   "devices": {
-    "none":             {"desc": "Dựng bình thường."},
-    "cut_away":         {"desc": "Máy quay rời chủ thể, nhìn vào đồ vật/bối cảnh; nhân vật có thể ẩn.", "hide_cast": false, "camera_override": "cut"},
-    "silhouette":       {"desc": "Nhân vật thành bóng đen một màu, nền giữ nguyên.", "cast_material": "silhouette"},
-    "symbol_object":    {"desc": "Thay hành động bằng một đồ vật tượng trưng ở giữa khung; nhân vật ẩn.", "hide_cast": true, "symbol": true},
-    "top_down_diagram": {"desc": "Góc nhìn thẳng từ trên xuống, nhân vật thành chấm/khối, nền sơ đồ.", "camera_override": "top_down", "cast_material": "marker", "background_override": "diagram"},
-    "offscreen_sound":  {"desc": "Khung chỉ có bối cảnh trống (hoặc tối), hành động xảy ra ngoài hình.", "hide_cast": true, "dim": 0.35}
+    "none": {
+      "desc": "Dựng bình thường."
+    },
+    "cut_away": {
+      "desc": "Máy quay rời chủ thể, nhìn vào đồ vật/bối cảnh; nhân vật có thể ẩn.",
+      "hide_cast": false,
+      "camera_override": "cut"
+    },
+    "silhouette": {
+      "desc": "Nhân vật thành bóng đen một màu, nền giữ nguyên.",
+      "cast_material": "silhouette"
+    },
+    "symbol_object": {
+      "desc": "Thay hành động bằng một đồ vật tượng trưng ở giữa khung; nhân vật ẩn.",
+      "hide_cast": true,
+      "symbol": true
+    },
+    "top_down_diagram": {
+      "desc": "Góc nhìn thẳng từ trên xuống, nhân vật thành chấm/khối, nền sơ đồ.",
+      "camera_override": "top_down",
+      "cast_material": "marker",
+      "background_override": "diagram"
+    },
+    "offscreen_sound": {
+      "desc": "Khung chỉ có bối cảnh trống (hoặc tối), hành động xảy ra ngoài hình.",
+      "hide_cast": true,
+      "dim": 0.35
+    }
   }
 }

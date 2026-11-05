@@ -1,153 +1,141 @@
 # cartoon3d-engine
 
-Engine sinh video hoạt hình 3D **dựng bằng code** cho video engine. Nhận một chunk đã có timeline SRT từ nhạc trưởng, trả về video đúng thời lượng chunk, đã qua 8 cổng kiểm. Bản gốc của mọi thứ là file chữ (JSON + script); video chỉ là sản phẩm sinh ra, không đưa lên Git.
+Engine sinh video hoạt hình 3D **dựng bằng code** trong roster của video engine. Nhận `chunk_input` từ nhạc trưởng, trả
+`render_output` + video đúng thời lượng chunk, đã qua 6 cổng chung và 8 cổng riêng. **Không in phụ đề**: phụ đề in một lần ở
+khâu ghép.
 
-Spec gốc: *Spec cartoon3d — module hoạt hình 3D trong video engine* (Claude Docs). Luật riêng của repo: [AGENTS.md](AGENTS.md).
+- Spec: [docs/spec.md](docs/spec.md) · hợp đồng chung: `engine-contracts/docs/spec.md` · luật repo: [AGENTS.md](AGENTS.md)
+- Thẻ năng lực cho nhạc trưởng: [capability_card.json](capability_card.json)
+- Giai đoạn hiện tại: **P1 Lõi engine** (P0 thử nghiệm đã xong).
 
-## Chạy thử
+## Chạy
 
-Cần Python ≥ 3.11, Node ≥ 18 có `playwright` (Chromium), `ffmpeg`/`ffprobe`.
+Cần Python ≥ 3.11, Node ≥ 18 có `playwright` (Chromium), `ffmpeg`/`ffprobe`, `tesseract-ocr` (+ `tesseract-ocr-vie`) cho
+cổng không-phụ-đề.
 
 ```bash
 pip install -e ".[dev]"
 (cd backends/threejs && npm ci)
+cp providers.example.yaml providers.yaml      # chọn adapter cho port llm_provider (tuỳ máy)
 
-# trọn luồng trên cảnh mẫu, độ phân giải nhỏ cho nhanh (~10 s)
-python -m core.pipeline run --chunk tests/fixtures/cheese_bank/chunk_input.json --width 640 --height 360
-
-# kết quả
-out/000004200_002/000004200_002.mp4      # video
-out/000004200_002/render_output.json     # hợp đồng trả nhạc trưởng (kèm qa_report)
-out/000004200_002/contact_sheet.png      # lưới khung để tự xem
-out/000004200_002/shots/*.json           # shot đã lập — sửa tay rồi chạy lại với --shots
+pytest -q                                                        # 62 test, gồm 2 lần render 1080p (~2 phút trên CPU)
+python -m core.pipeline run --chunk tests/fixtures/cheese_bank/chunk_input.json            # 1920x1080, ~45 s
+python -m core.pipeline run --chunk tests/fixtures/cheese_bank/chunk_input.json --preview  # 1/3 độ phân giải, ~10 s
+python -m core.pipeline run --chunk ... --shots out/<chunk_id>/shots                       # render từ shot đã sửa tay
+python -m core.pipeline plan --chunk ...                                                   # chỉ lập shot
 ```
 
-Lệnh khác:
+Kết quả trong `out/<chunk_id>/`: `<chunk_id>.mp4`, `render_output.json`, `contact_sheet.png`, `shots/*.json`.
+Mã thoát: `0` done · `2` failed (trượt cổng) · `3` rejected · `4` preview.
 
-```bash
-python -m core.pipeline plan --chunk <chunk_input.json>                # chỉ lập shot
-python -m core.pipeline run  --chunk ... --skip-render                 # lập shot + bundle + 5 cổng trước render
-python -m core.pipeline run  --chunk ... --shots out/<chunk_id>/shots  # render từ shot đã sửa tay
-python -m core.pipeline run  --chunk ... --backend blender             # cần Blender ≥ 4.0 (giai đoạn P3)
-python -m core.pipeline qa   --chunk ... --shots ... --frames ... --video ... --captions-plan ...
-python -m pytest                                                       # test; e2e tự bỏ qua khi thiếu Chromium/ffmpeg
-```
+## Hợp đồng chung (engine-contracts)
 
-Mã thoát `2` = có cổng trượt; chi tiết trong `out/<chunk_id>/qa_report.json`.
+`chunk_input`, `render_output`, `capability_card`, `format.json`, `looks/` và `ports/` thuộc repo `engine-contracts`. Repo đó
+chưa có, nên tạm dùng bản chép từ brief trong `vendor/engine-contracts/` (đọc [README](vendor/engine-contracts/README.md) của
+nó). `core/contracts.py` tìm theo thứ tự `ENGINE_CONTRACTS_DIR` → `../engine-contracts` → `vendor/engine-contracts`.
 
-## Vị trí trong video engine
+| Hợp đồng | Trường chính | Ai viết |
+| --- | --- | --- |
+| `chunk_input` | `chunk_id`, `start_ms`, `end_ms`, `text`, `words[]`, `emotion`, `speech_rate`, `sensitivity`, `aspect`, `look_id`, `cast_refs`, `data_refs` | Nhạc trưởng |
+| `render_output` | `chunk_id`, `engine_id`, `status`, `video_path`, `frames`, `fps`, `duration_ms`, `qa_report`, `cost` | Engine |
+| `shot` (riêng, `specs/`) | `shot_id`, `duration_ms`, `style`, `set`, `cast[]`, `camera`, `look_id`, `sensitivity_device` | `shot_planner` |
+| `asset` (riêng, `specs/`) | `asset_id`, `kind`, `source`, `license`, `commercial_ok`, `redistribute_ok`, `path`, `version` | Người dựng tài sản |
 
-```
-SRT tập ──► srt-chunker ──► nhạc trưởng ──► [engine 1..4] + cartoon3d-engine ──► khâu ghép (lồng tiếng, nhạc, co giãn)
-                                              chunk_input.json ──► render_output.json + .mp4
-```
+`format.json` tạm: 30 fps, 1920×1080 cho 16:9, 1080×1920 cho 9:16, h264/yuv420p.
 
-Repo này chỉ thay một ô trong roster: cùng hợp đồng chunk vào và video ra như các engine còn lại, nên nhạc trưởng và khâu ghép không phải sửa.
-
-## Luồng pipeline
+## Luồng và module
 
 ```
-chunk_input.json
-   │ shot_planner (luật tất định; Claude sửa tay được)        ┐
-   ▼                                                           │ camera_library · sensitivity
-shots/*.json                                                   ┘
-   │ scene_bundle: tài sản + phong cách + track máy quay/nhân vật từng khung
-   ▼
-scene_bundle.json ──► cổng trước render G1 G2 G4 G5 G7 ──trượt──► sửa shot/preset, chạy lại
-   │ backend threejs (Chromium headless) | blender (bpy)
-   ▼
-frames/*.png ──► captions (Pillow, từng chữ) ──► ffmpeg .mp4 ──► cổng sau render G3 G6 G8
-   ▼
-render_output.json + qa_report.json + contact_sheet.png
+chunk_input ─► thẻ năng lực ─(ngoài phạm vi)─► render_output status=rejected
+     │
+     ▼ shot_planner: bản nháp tất định ─► port llm_provider (Claude; mock trong test) ─► shots/*.json
+     ▼ scene_bundle: tài sản + phong cách + look_adapter + track máy quay/nhân vật từng khung
+     ▼ cổng trước render: C-license G1 G2 G4 G5 G7 ──trượt──► failed, không render
+     ▼ backend threejs (Chromium headless) | blender (bpy) ─► khung .png
+     ▼ ffmpeg .mp4 theo format.json (không phụ đề)
+     ▼ cổng sau render: C-duration C-format C-visual C-no-captions G3 G6 G8, rồi C-schema trên render_output
+     ▼ render_output status=done | failed
 ```
 
 | Module | Input | Output | Công cụ |
 | --- | --- | --- | --- |
-| `core/shot_planner` | `chunk_input.json` | danh sách `shot.json` | luật tất định + `camera_library` (Claude sửa tay) |
-| `core/scene_bundle.py` | `shot.json`, `assets/`, `styles/` | `scene_bundle.json` (kèm track từng khung) | Python |
+| `core/shot_planner` | `chunk_input.json` | danh sách `shot.json` | luật tất định + Claude qua port `llm_provider` + `camera_library` |
+| `core/look_adapter` | `looks/<look_id>.json`, `emotion` | màu vật liệu, nền, nét viền, nội suy mặc định | Python |
+| `core/scene_bundle.py` | `shot.json`, `assets/`, `styles/`, look | `scene_bundle.json` (kèm track từng khung) | Python |
 | `backends/threejs` | `scene_bundle.json` | khung `.png` | Three.js 0.170 trong Chromium headless (Playwright) |
-| `backends/blender` | `scene_bundle.json` | khung `.png` | Blender `--background` (`bpy`), giai đoạn P3 |
-| `core/captions` | word-level SRT trong chunk | lớp phụ đề vẽ vào khung + `captions_plan.json` | Pillow |
-| `core/qa_gates` | khung + shot + bundle | `qa_report.json`, `contact_sheet.png` | jsonschema, ffprobe, Pillow |
-| đóng gói (`core/pipeline.py`) | khung đã qua cổng | `.mp4` + `render_output.json` | ffmpeg |
+| `backends/blender` | `scene_bundle.json` | khung `.png` | Blender `--background` (`bpy`) — giai đoạn P2, chưa chạy CI |
+| `core/qa_gates` | khung + shot + video | `qa_report` trong `render_output.json`, `contact_sheet.png` | jsonschema, ffprobe, Pillow, tesseract |
+| `core/pipeline.py` | khung đã qua cổng | `.mp4` + `render_output.json` | ffmpeg |
+| `core/providers.py` | `providers.yaml` | `PortClient` cho từng port | ports của engine-contracts |
+
+## Cổng kiểm
+
+| Cổng | Kiểm gì | Cách kiểm |
+| --- | --- | --- |
+| C-schema | `chunk_input` và `render_output` đúng schema chung | jsonschema |
+| C-duration | Số khung = làm tròn(`duration_ms` × fps / 1000), lệch 0 khung | ffprobe `-count_frames` |
+| C-format | fps, độ phân giải theo `aspect`, codec, pix_fmt khớp `format.json` | ffprobe |
+| C-visual | Không khung đen/trắng | thống kê khung mẫu + contact sheet |
+| C-no-captions | OCR khung giữa không ra chữ nào của `text` | tesseract `eng+vie` |
+| C-license | Mọi tài sản dùng thương mại được | registry |
+| G1 Schema | Shot đúng `shot.schema.json`, mang `chunk_id` và `look_id` của chunk, tổng thời lượng khớp | jsonschema |
+| G2 Giấy phép | Mọi dòng registry đúng schema; tài sản dùng có `commercial_ok = true` | đối chiếu registry |
+| G3 Thời lượng | Khung từng shot, khung trên đĩa và trong video đều đúng số | ffprobe |
+| G4 Hình khối | Vật tròn ≥ 32 mặt; crease cố định 140° | đọc bundle trước render |
+| G5 Máy quay | Máy cách tâm nhân vật ≥ 0,5 m; chủ thể trong khung | đo track từng khung |
+| G6 Hình ảnh | Soát mọi khung không đen/trắng | thống kê khung + agent tự xem contact sheet |
+| G7 Nhạy cảm | `sensitivity_device` khớp mức `sensitivity` của chunk | `core/sensitivity/table.json` |
+| G8 Không phụ đề | OCR 5 khung mẫu không ra chữ của lời thoại | tesseract |
+
+## Thư viện máy quay, nhạy cảm, phong cách
+
+- Bốn chuyển động: `dolly`, `orbit`, `track_to`, `cut`. Mỗi set khai `camera_presets` nên shot chỉ cần ghi `move`.
+- Cảm xúc → chuyển động mặc định trong `core/camera_library/moves.json` (cảm xúc lạ → `dolly`).
+- `sensitivity` của chunk → thủ pháp: `none` → `none` · `low` → `cut_away` · `medium` → `silhouette` · `high` → `offscreen_sound`.
+- Ba phong cách cắm rời trong `styles/`: `toon` (mặc định), `voxel`, `pixel3d`.
+- Bối cảnh: `default_set` của nhân vật đầu tiên; chunk không có nhân vật thì khớp `keywords` của set với lời thoại.
 
 ## Cấu trúc thư mục
 
 ```
 cartoon3d-engine/
-├── AGENTS.md              # luật riêng của repo
-├── specs/                 # hợp đồng dữ liệu: chunk_input, shot, render_output, asset
+├── AGENTS.md · README.md · capability_card.json · providers.example.yaml
+├── docs/spec.md
+├── specs/                 # shot.schema.json, asset.schema.json
 ├── core/
-│   ├── shot_planner/      # chunk → danh sách shot
+│   ├── shot_planner/      # chunk → shot (qua port llm_provider)
 │   ├── camera_library/    # dolly, orbit, track_to, cut + nội suy tên Blender
-│   ├── sensitivity/       # mức nhạy cảm → thủ pháp hình ảnh (table.json)
-│   ├── captions/          # phụ đề từng chữ
-│   ├── qa_gates/          # 8 cổng kiểm + contact sheet
-│   ├── motion.py          # vị trí nhân vật theo đường đi, từng khung
-│   ├── scene_bundle.py    # gom shot + tài sản + track thành một file cho backend
-│   ├── timing.py          # ms ↔ khung, chia khung cho shot
-│   └── pipeline.py        # CLI: plan · run · qa
+│   ├── sensitivity/       # mức nhạy cảm → thủ pháp hình ảnh
+│   ├── look_adapter/      # dịch look token sang vật liệu, nét viền
+│   ├── qa_gates/          # 6 cổng chung + 8 cổng riêng + contact sheet
+│   ├── contracts.py       # tìm và đọc engine-contracts
+│   ├── providers.py       # providers.yaml → PortClient
+│   ├── capability.py      # thẻ năng lực, trả rejected sớm
+│   ├── motion.py · scene_bundle.py · timing.py · registry.py
+│   └── pipeline.py        # CLI: run · plan
 ├── backends/
 │   ├── threejs/           # index.html, scene_builder.js, capture.cjs, capture.py
 │   └── blender/           # build_scene.py, render.py
 ├── styles/                # toon.json, voxel.json, pixel3d.json
-├── assets/
-│   ├── registry.json      # sổ tài sản + giấy phép (G2)
-│   ├── characters/        # toon = bộ tham số khối; voxel = lưới (x, y, z, màu)
-│   ├── sets/              # cheese_vault, bank_hall, police_station: khối + điểm + đường đi + preset máy quay
-│   ├── props/
-│   └── external/          # file nặng — Git LFS hoặc NAS
-├── tests/                 # pytest; fixtures/cheese_bank là cảnh mẫu
+├── assets/                # registry.json, characters/ (4), sets/ (3), props/ (3), external/
+├── vendor/engine-contracts/  # bản chép tạm — xoá khi repo engine-contracts có thật
+├── tests/                 # pytest; fixtures/cheese_bank
 └── out/                   # render — trong .gitignore
 ```
 
-`episodes/` không nằm trong repo: input của từng tập do video engine giữ, repo chỉ nhận chunk.
-
-## Schema dữ liệu
-
-| Hợp đồng | Trường chính | Ai viết |
-| --- | --- | --- |
-| `chunk_input` | `chunk_id`, `start_ms`, `end_ms`, `text`, `words[]`, `emotion`, `sensitivity` (0–3), `style`, `cast_refs`, `set_hint` | Nhạc trưởng |
-| `shot` | `shot_id`, `duration_ms`, `style`, `set`, `cast[]`, `camera`, `captions`, `sensitivity_device` | `shot_planner` |
-| `render_output` | `chunk_id`, `video_path`, `frames`, `duration_ms`, `fps`, `backend`, `qa_report` | Backend + `qa_gates` |
-| `asset` | `asset_id`, `kind`, `source`, `license`, `commercial_ok`, `redistribute_ok`, `path`, `version` | Người dựng tài sản |
-
-Ví dụ shot (cảnh phô mai): [tests/fixtures/cheese_bank/shot_example.json](tests/fixtures/cheese_bank/shot_example.json). `interp` dùng tên của Blender; `sensitivity_device` một trong `none`, `cut_away`, `silhouette`, `symbol_object`, `top_down_diagram`, `offscreen_sound`.
-
-## Thư viện máy quay và thủ pháp nhạy cảm
-
-- Bốn chuyển động có tên: `dolly` (từ → đến), `orbit` (quay quanh tâm), `track_to` (bám nhân vật với offset), `cut` (cắt giữa nhiều góc). Mỗi set khai `camera_presets` nên shot chỉ cần ghi `move`; planner điền phần còn lại để `shot.json` tự đứng được.
-- Cảm xúc → chuyển động mặc định: `neutral`/`calm` → dolly, `tense`/`sad` → orbit, `reveal`/`funny` → track_to, `chaos` → cut (`core/camera_library/moves.json`).
-- Mức nhạy cảm 0–3 → thủ pháp được phép và mặc định (`core/sensitivity/table.json`): 0 `none` · 1 `cut_away` · 2 `silhouette` · 3 `offscreen_sound`. Thủ pháp sai mức bị cổng G7 chặn.
-
-## Cổng kiểm chất lượng
-
-| Cổng | Kiểm gì | Cách kiểm |
-| --- | --- | --- |
-| G1 Schema | chunk, shot, render_output đúng schema; tổng `duration_ms` shot = chunk | jsonschema |
-| G2 Giấy phép | mọi tài sản có trong registry, `commercial_ok = true`, file tồn tại | đối chiếu registry |
-| G3 Thời lượng | số khung = làm tròn(`duration_ms` × fps / 1000), trên đĩa và trong `.mp4` | ffprobe `-count_frames` |
-| G4 Hình khối | vật tròn ≥ 32 mặt; crease 140° | đọc bundle trước render |
-| G5 Máy quay | máy cách tâm nhân vật ≥ 0,5 m; chủ thể trong khung (trừ cut_away/offscreen/symbol) | đo track từng khung |
-| G6 Hình ảnh | không khung đen/trắng; chữ không bị cắt | thống kê khung mẫu + contact sheet để agent tự xem |
-| G7 Nhạy cảm | `sensitivity_device` khớp mức của chunk | bảng quy đổi |
-| G8 Phụ đề | chữ trong vùng an toàn 5 %; từng từ bắt đầu đúng khung của SRT | so `captions_plan.json` với `words[]` |
-
-Cổng trước render (G1 G2 G4 G5 G7) chạy trên bundle, trượt thì dừng ngay không tốn render. Cổng sau render (G3 G6 G8) chạy trên khung và video. Trượt cổng nào thì sửa (shot, preset máy quay của set, tài sản) rồi chạy lại; không giao video lỗi.
-
 ## Lộ trình
 
-| Giai đoạn | Nội dung | Trạng thái |
-| --- | --- | --- |
-| P0 | Hợp đồng dữ liệu, cảnh mẫu `cheese_bank`, backend Three.js, 8 cổng, phụ đề từng chữ | **xong** (repo này) |
-| P1 | Một tập 3 phút đi trọn luồng qua nhạc trưởng; thêm nhân vật/bối cảnh cho dòng vụ án | tiếp theo |
-| P2 | Chất lượng hình: rig tay chân khớp hành động, nhiều `camera_presets`, ≥ 75 % chunk qua cổng ngay lần đầu (mốc đề xuất) | |
-| P3 | Backend Blender thay Three.js cho bản phát hành | `backends/blender` giữ cùng hợp đồng, chưa chạy CI |
+| Giai đoạn | Nội dung | Cổng sang giai đoạn sau | Trạng thái |
+| --- | --- | --- | --- |
+| P0 Thử nghiệm | Three.js, 3 shot cảnh ngân hàng phô mai | Giống bản tham chiếu ≥ 50% (đạt ~55%) | xong |
+| P1 Lõi engine | schema, planner, camera_library, qa_gates, 3 bối cảnh, 4 nhân vật | 1 tập 3 phút qua đủ 8 cổng | **đang làm**: lõi + test xanh, chưa chạy tập 3 phút |
+| P2 Blender | backend thứ hai: Line Art, DOF, rig Mixamo, cùng spec shot | Giống bản tham chiếu ≥ 75% (mốc đề xuất) | có khung `backends/blender`, chưa chạy |
+| P3 Mở rộng | voxel, pixel3d, bối cảnh vụ án, thêm nhân vật | Kênh có view và dòng tiền | có bản đầu của voxel, pixel3d |
 
-## Câu hỏi mở (theo spec)
+## Câu hỏi mở
 
-- [ ] cartoon3d là engine thứ 5 hay thứ 6 trong roster?
-- [ ] Tên repo chốt `cartoon3d-engine` hay theo quy ước đặt tên engine?
 - [ ] File nặng để Git LFS hay ổ NAS chung? (`.gitattributes` đang khai LFS cho `assets/external/`)
-- [ ] Phụ đề từng chữ do engine này vẽ (hiện tại) hay khâu ghép vẽ chung cho mọi engine? (`captions.mode = none` tắt được)
-- [ ] Dòng vụ án dùng `toon` hay `voxel` làm mặc định?
+- [ ] Dòng vụ án dùng `toon` hay `voxel` làm mặc định? (đang `toon`, đổi bằng `CARTOON3D_STYLE`)
+- [ ] Giá trị `sensitivity`, `speech_rate` của `chunk_input` (brief chỉ có `none`, `normal`; đang tạm `none/low/medium/high`, `slow/normal/fast`).
+- [ ] Look chưa có token độ dày nét viền; đang đọc `stroke.width_scale` tuỳ chọn.
+- [ ] `capture.py` dùng chung với chart-engine đặt ở đâu (engine-contracts hay package riêng)? Trang hiện đã dùng API trung tính `window.capture`.

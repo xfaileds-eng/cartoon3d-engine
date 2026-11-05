@@ -8,9 +8,9 @@ import json
 from pathlib import Path
 from typing import Any
 
-from . import config
 from .camera_library import camera_track
 from .camera_library.camera import CameraPose
+from .look_adapter import apply_look, build_look_profile
 from .motion import cast_track
 from .registry import Registry, load_style
 from .sensitivity import device_spec
@@ -38,10 +38,11 @@ def build_bundle(
     chunk: dict[str, Any],
     n_frames: int,
     *,
+    look: dict[str, Any],
+    width: int,
+    height: int,
+    fps: int,
     registry: Registry | None = None,
-    width: int = config.DEFAULT_WIDTH,
-    height: int = config.DEFAULT_HEIGHT,
-    fps: int = config.DEFAULT_FPS,
 ) -> dict[str, Any]:
     registry = registry or Registry()
     set_data = registry.load(shot["set"], "set")
@@ -72,6 +73,9 @@ def build_bundle(
     else:
         cam_poses = camera_track(shot["camera"], set_data, tracks_cast, heights, n_frames, shot["duration_ms"])
 
+    profile = build_look_profile(look, chunk["emotion"])
+    style, set_data, characters, props = apply_look(profile, style, set_data, characters, props)
+
     return {
         "bundle_version": BUNDLE_VERSION,
         "chunk_id": chunk["chunk_id"],
@@ -82,7 +86,8 @@ def build_bundle(
         "set": set_data,
         "characters": characters,
         "props": props,
-        "sensitivity": {"level": int(chunk["sensitivity"]), "device": device, "spec": spec},
+        "look": profile,
+        "sensitivity": {"level": chunk["sensitivity"], "device": device, "spec": spec},
         "tracks": {
             "camera": [p.as_dict() for p in cam_poses],
             "cast": tracks_cast,

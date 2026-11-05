@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * capture.cjs — mở index.html trong Chromium headless (Playwright), gọi window.c3d.renderFrame(i)
+ * capture.cjs — mở index.html trong Chromium headless (Playwright), gọi window.capture.renderFrame(i)
  * cho từng khung và ghi PNG. Được capture.py gọi; cũng chạy tay được:
  *   node capture.cjs --url http://127.0.0.1:8000/repo/backends/threejs/index.html?bundle=/bundle.json \
  *                    --out out/x/frames --width 1920 --height 1080
@@ -48,16 +48,16 @@ const exe = process.env.CARTOON3D_CHROMIUM || undefined;
 
   await page.goto(url, { waitUntil: 'load', timeout: timeoutMs });
   try {
-    await page.waitForFunction(() => window.c3d && window.c3d.ready, null, { timeout: timeoutMs });
+    await page.waitForFunction(() => window.capture && window.capture.ready, null, { timeout: timeoutMs });
   } catch (e) {
     console.error('trang không sẵn sàng:', errors.join('\n') || e.message);
     await browser.close();
     process.exit(70);
   }
-  const n = await page.evaluate(() => window.c3d.frames);
+  const n = await page.evaluate(() => window.capture.frames);
   const t0 = Date.now();
   for (let i = 0; i < n; i++) {
-    const dataUrl = await page.evaluate(k => window.c3d.renderFrame(k), i);
+    const dataUrl = await page.evaluate(k => window.capture.renderFrame(k), i);
     const b64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
     fs.writeFileSync(path.join(outDir, pattern.replace('%05d', String(i).padStart(5, '0'))), Buffer.from(b64, 'base64'));
   }

@@ -2,6 +2,13 @@
   "asset_id": "cheese_vault",
   "kind": "set",
   "version": 1,
+  "keywords": [
+    "cheese",
+    "vault",
+    "phô mai",
+    "kho",
+    "hầm"
+  ],
   "bounds": {
     "min": [
       -6,
