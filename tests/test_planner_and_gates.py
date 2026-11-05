@@ -32,11 +32,20 @@ def test_plan_cheese_bank_matches_spec_example(chunk, shot_example, mock_llm):
     s = shots[0]
     assert validate("shot", s) == []
     assert s["shot_id"] == shot_example["shot_id"]
-    assert s["set"] == "cheese_vault" and s["style"] == "toon" and s["look_id"] == "test_warm"
+    assert s["set"] == "cheese_vault" and s["look_id"] == "test_warm"
     assert s["cast"][0]["action"] == "walk_carry" and s["cast"][0]["props"] == ["cheese_wheel"]
     assert s["camera"]["move"] == "dolly" and s["camera"]["interp"] == "ease_in_out"
     assert s["sensitivity_device"] == "none"
     assert "captions" not in s
+
+
+def test_default_style_is_voxel_for_crime_series(chunk, mock_llm):
+    """Anh chốt 05/11/2026: dòng vụ án dùng voxel làm mặc định."""
+    assert plan_chunk(chunk, llm=mock_llm)[0]["style"] == "voxel"
+
+
+def test_style_override_still_possible(chunk, mock_llm):
+    assert plan_chunk(chunk, llm=mock_llm, style="toon")[0]["style"] == "toon"
 
 
 def test_plan_sample_chunk_without_cast_picks_set_from_text(chunk_sample, mock_llm):

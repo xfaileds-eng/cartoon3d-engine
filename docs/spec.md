@@ -186,4 +186,4 @@ Chạy fixture `chunk_sample.json` của `engine-contracts` (4,2 giây, 30 fps =
 ## Câu hỏi mở
 
 - [ ] File nặng để Git LFS hay ổ NAS chung?
-- [ ] Dòng vụ án dùng phong cách nào làm mặc định: `toon` hay `voxel`?
+- [x] Dòng vụ án dùng phong cách nào làm mặc định: `toon` hay `voxel`? → `voxel` (chốt 05/11/2026).

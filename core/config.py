@@ -15,8 +15,8 @@ PROVIDERS_PATH = Path(os.environ.get("PROVIDERS_CONFIG", REPO_ROOT / "providers.
 
 ENGINE_ID = "cartoon3d"
 DEFAULT_BACKEND = os.environ.get("CARTOON3D_BACKEND", "threejs")
-# Phong cách mặc định khi chunk không chỉ định (câu hỏi mở: dòng vụ án dùng toon hay voxel).
-DEFAULT_STYLE = os.environ.get("CARTOON3D_STYLE", "toon")
+# Phong cách mặc định: dòng vụ án dùng voxel (anh Vinh chốt 05/11/2026). Đổi theo máy bằng CARTOON3D_STYLE.
+DEFAULT_STYLE = os.environ.get("CARTOON3D_STYLE", "voxel")
 # Chạy xem trước: render ở 1/3 độ phân giải chuẩn, không xuất render_output.
 PREVIEW_SCALE = 1 / 3
 

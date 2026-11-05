@@ -92,7 +92,8 @@ chunk_input ─► thẻ năng lực ─(ngoài phạm vi)─► render_output s
 - Bốn chuyển động: `dolly`, `orbit`, `track_to`, `cut`. Mỗi set khai `camera_presets` nên shot chỉ cần ghi `move`.
 - Cảm xúc → chuyển động mặc định trong `core/camera_library/moves.json` (cảm xúc lạ → `dolly`).
 - `sensitivity` của chunk → thủ pháp: `none` → `none` · `low` → `cut_away` · `medium` → `silhouette` · `high` → `offscreen_sound`.
-- Ba phong cách cắm rời trong `styles/`: `toon` (mặc định), `voxel`, `pixel3d`.
+- Ba phong cách cắm rời trong `styles/`: `voxel` (mặc định cho dòng vụ án, chốt 05/11/2026), `toon`, `pixel3d`. Đổi theo máy bằng biến `CARTOON3D_STYLE`.
+- Giới hạn hiện tại của `voxel`: mới đổi cách đổ bóng (tô phẳng, không viền) và nhân vật lưới voxel như `rat_voxel`. Bối cảnh, đồ vật và nhân vật khối vẫn giữ hình tròn trơn; khối hoá toàn cảnh (`voxelize_sets` trong `styles/voxel.json`) chưa làm, thuộc P3.
 - Bối cảnh: `default_set` của nhân vật đầu tiên; chunk không có nhân vật thì khớp `keywords` của set với lời thoại.
 
 ## Cấu trúc thư mục
@@ -130,12 +131,12 @@ cartoon3d-engine/
 | P0 Thử nghiệm | Three.js, 3 shot cảnh ngân hàng phô mai | Giống bản tham chiếu ≥ 50% (đạt ~55%) | xong |
 | P1 Lõi engine | schema, planner, camera_library, qa_gates, 3 bối cảnh, 4 nhân vật | 1 tập 3 phút qua đủ 8 cổng | **đang làm**: lõi + test xanh, chưa chạy tập 3 phút |
 | P2 Blender | backend thứ hai: Line Art, DOF, rig Mixamo, cùng spec shot | Giống bản tham chiếu ≥ 75% (mốc đề xuất) | có khung `backends/blender`, chưa chạy |
-| P3 Mở rộng | voxel, pixel3d, bối cảnh vụ án, thêm nhân vật | Kênh có view và dòng tiền | có bản đầu của voxel, pixel3d |
+| P3 Mở rộng | voxel, pixel3d, bối cảnh vụ án, thêm nhân vật | Kênh có view và dòng tiền | voxel là mặc định nhưng chưa khối hoá toàn cảnh; pixel3d bản đầu |
 
 ## Câu hỏi mở
 
 - [ ] File nặng để Git LFS hay ổ NAS chung? (`.gitattributes` đang khai LFS cho `assets/external/`)
-- [ ] Dòng vụ án dùng `toon` hay `voxel` làm mặc định? (đang `toon`, đổi bằng `CARTOON3D_STYLE`)
+- [x] Dòng vụ án dùng `voxel` làm mặc định (anh chốt 05/11/2026).
 - [ ] Giá trị `sensitivity`, `speech_rate` của `chunk_input` (brief chỉ có `none`, `normal`; đang tạm `none/low/medium/high`, `slow/normal/fast`).
 - [ ] Look chưa có token độ dày nét viền; đang đọc `stroke.width_scale` tuỳ chọn.
 - [ ] `capture.py` dùng chung với chart-engine đặt ở đâu (engine-contracts hay package riêng)? Trang hiện đã dùng API trung tính `window.capture`.
