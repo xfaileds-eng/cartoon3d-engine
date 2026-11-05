@@ -1,0 +1,12 @@
+{
+  "name": "cartoon3d-threejs-backend",
+  "version": "1.0.0",
+  "description": "Backend Three.js của cartoon3d-engine: dựng cảnh từ scene_bundle.json, render từng khung trong Chrome headless",
+  "scripts": {
+    "capture": "node capture.cjs"
+  },
+  "private": true,
+  "dependencies": {
+    "three": "0.170.0"
+  }
+}

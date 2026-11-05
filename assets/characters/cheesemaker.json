@@ -1,0 +1,21 @@
+{
+  "asset_id": "cheesemaker",
+  "kind": "character",
+  "version": 1,
+  "style": "toon",
+  "rig": "biped_blocks",
+  "height_m": 1.75,
+  "default_set": "cheese_vault",
+  "default_props": ["cheese_wheel"],
+  "parts": {
+    "head":  {"shape": "sphere",   "radius": 0.17, "segments": 32, "color": "#f2c9a0"},
+    "hat":   {"shape": "cylinder", "radius": 0.19, "height": 0.16, "segments": 32, "color": "#f7f3e8"},
+    "torso": {"shape": "box",      "size": [0.44, 0.60, 0.26], "color": "#f7f3e8"},
+    "apron": {"shape": "box",      "size": [0.40, 0.50, 0.04], "color": "#2d6a9f"},
+    "arm_l": {"shape": "box",      "size": [0.12, 0.56, 0.12], "color": "#f7f3e8"},
+    "arm_r": {"shape": "box",      "size": [0.12, 0.56, 0.12], "color": "#f7f3e8"},
+    "leg_l": {"shape": "box",      "size": [0.16, 0.76, 0.16], "color": "#3b3b4f"},
+    "leg_r": {"shape": "box",      "size": [0.16, 0.76, 0.16], "color": "#3b3b4f"}
+  },
+  "face": {"eyes": "#1a1a1a", "mouth": "#7a3b2e"}
+}

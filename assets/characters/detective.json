@@ -1,0 +1,21 @@
+{
+  "asset_id": "detective",
+  "kind": "character",
+  "version": 1,
+  "style": "toon",
+  "rig": "biped_blocks",
+  "height_m": 1.72,
+  "default_set": "police_station",
+  "default_props": ["evidence_bag"],
+  "parts": {
+    "head":  {"shape": "sphere",   "radius": 0.17, "segments": 32, "color": "#d9a57c"},
+    "hat":   {"shape": "cylinder", "radius": 0.24, "height": 0.08, "segments": 32, "color": "#5a4632"},
+    "torso": {"shape": "box",      "size": [0.46, 0.62, 0.28], "color": "#8a6d4b"},
+    "apron": {"shape": "box",      "size": [0.42, 0.30, 0.03], "color": "#6e563b"},
+    "arm_l": {"shape": "box",      "size": [0.12, 0.56, 0.12], "color": "#8a6d4b"},
+    "arm_r": {"shape": "box",      "size": [0.12, 0.56, 0.12], "color": "#8a6d4b"},
+    "leg_l": {"shape": "box",      "size": [0.16, 0.74, 0.16], "color": "#3a3a3a"},
+    "leg_r": {"shape": "box",      "size": [0.16, 0.74, 0.16], "color": "#3a3a3a"}
+  },
+  "face": {"eyes": "#1a1a1a", "mouth": "#6b2f26"}
+}

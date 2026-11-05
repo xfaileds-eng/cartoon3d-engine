@@ -1,0 +1,2 @@
+{"asset_id": "cheese_wheel", "kind": "prop", "version": 1, "attach": "hands",
+ "objects": [{"name": "wheel", "shape": "cylinder", "position": [0, 0, 0], "radius": 0.32, "height": 0.22, "segments": 32, "color": "#f2c230"}]}

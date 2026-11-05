@@ -1,0 +1,11 @@
+{
+  "style_id": "pixel3d",
+  "renderer": {"background": "#1a1c24", "pixel_ratio": 1, "internal_scale": 0.25, "antialias": false, "upscale": "nearest"},
+  "material": {"type": "lambert_flat", "outline": {"enabled": true, "width": 0.03, "color": "#000000"}},
+  "geometry": {"min_segments": 32, "crease_angle_deg": 140},
+  "lights": [
+    {"type": "hemisphere", "sky": "#d6dde8", "ground": "#2b2620", "intensity": 1.0},
+    {"type": "directional", "color": "#fff5e0", "intensity": 1.5, "position": [3, 7, 5], "shadow": false}
+  ],
+  "sensitivity": {"silhouette_color": "#000000", "diagram_background": "#0e1018", "symbol_scale": 2.0}
+}

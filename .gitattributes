@@ -1,0 +1,12 @@
+# File nặng trong assets/external đi qua Git LFS (hoặc để ngoài Git, trên ổ NAS chung — câu hỏi mở trong spec).
+assets/external/**/*.glb   filter=lfs diff=lfs merge=lfs -text
+assets/external/**/*.gltf  filter=lfs diff=lfs merge=lfs -text
+assets/external/**/*.blend filter=lfs diff=lfs merge=lfs -text
+assets/external/**/*.vox   filter=lfs diff=lfs merge=lfs -text
+assets/external/**/*.fbx   filter=lfs diff=lfs merge=lfs -text
+assets/external/**/*.png   filter=lfs diff=lfs merge=lfs -text
+*.json text eol=lf
+*.py   text eol=lf
+*.js   text eol=lf
+*.cjs  text eol=lf
+*.md   text eol=lf

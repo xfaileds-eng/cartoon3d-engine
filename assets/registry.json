@@ -1,0 +1,15 @@
+{
+  "$comment": "Sổ tài sản. Mỗi dòng khớp specs/asset.schema.json. Không có dòng ở đây = không được render (G2).",
+  "assets": [
+    {"asset_id": "cheesemaker", "kind": "character", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/characters/cheesemaker.json", "version": 1},
+    {"asset_id": "banker", "kind": "character", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/characters/banker.json", "version": 1},
+    {"asset_id": "detective", "kind": "character", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/characters/detective.json", "version": 1},
+    {"asset_id": "rat_voxel", "kind": "character", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/characters/rat_voxel.json", "version": 1},
+    {"asset_id": "cheese_vault", "kind": "set", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/sets/cheese_vault.json", "version": 1},
+    {"asset_id": "bank_hall", "kind": "set", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/sets/bank_hall.json", "version": 1},
+    {"asset_id": "police_station", "kind": "set", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/sets/police_station.json", "version": 1},
+    {"asset_id": "cheese_wheel", "kind": "prop", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/props/cheese_wheel.json", "version": 1},
+    {"asset_id": "briefcase", "kind": "prop", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/props/briefcase.json", "version": 1},
+    {"asset_id": "evidence_bag", "kind": "prop", "source": "script", "license": "own", "commercial_ok": true, "redistribute_ok": true, "path": "assets/props/evidence_bag.json", "version": 1}
+  ]
+}

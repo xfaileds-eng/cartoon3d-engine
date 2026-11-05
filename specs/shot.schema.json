@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cartoon3d-engine/specs/shot.schema.json",
+  "title": "shot",
+  "description": "Một shot do shot_planner lập từ chunk. Cả hai backend (threejs, blender) cùng ăn spec này.",
+  "type": "object",
+  "required": ["shot_id", "duration_ms", "style", "set", "cast", "camera", "captions", "sensitivity_device"],
+  "additionalProperties": false,
+  "properties": {
+    "shot_id": {"type": "string", "pattern": "^[0-9]{9}_[0-9]{3}_s[0-9]+$"},
+    "duration_ms": {"type": "integer", "minimum": 1},
+    "style": {"type": "string", "enum": ["toon", "voxel", "pixel3d"]},
+    "set": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "action"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "action": {"type": "string", "enum": ["idle", "walk", "walk_carry", "sit", "point", "talk", "hidden"]},
+          "path": {"type": "string", "description": "Tên đường đi trong set.paths; bắt buộc với walk/walk_carry."},
+          "at": {"type": "string", "description": "Tên điểm trong set.points khi đứng yên."},
+          "face": {"type": "number", "description": "Góc quay (độ) quanh trục Y khi đứng yên."},
+          "props": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}}
+        }
+      }
+    },
+    "camera": {
+      "type": "object",
+      "required": ["move", "look_at", "interp"],
+      "additionalProperties": false,
+      "properties": {
+        "move": {"type": "string", "enum": ["dolly", "orbit", "track_to", "cut"]},
+        "from": {"$ref": "#/$defs/vec3"},
+        "to": {"$ref": "#/$defs/vec3"},
+        "center": {"$ref": "#/$defs/vec3"},
+        "radius": {"type": "number", "exclusiveMinimum": 0},
+        "height": {"type": "number"},
+        "start_deg": {"type": "number"},
+        "end_deg": {"type": "number"},
+        "target": {"type": "string", "description": "track_to: id nhân vật được bám."},
+        "offset": {"$ref": "#/$defs/vec3", "description": "track_to: vị trí máy so với nhân vật."},
+        "positions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/vec3"}},
+        "cut_at_ms": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+        "look_at": {"oneOf": [{"type": "string"}, {"$ref": "#/$defs/vec3"}],
+          "description": "Tên điểm trong set.points, id nhân vật, hoặc toạ độ."},
+        "interp": {"type": "string", "enum": ["linear", "ease_in", "ease_out", "ease_in_out", "constant", "bounce"],
+          "description": "Tên nội suy theo Blender, không dùng tên của After Effects."},
+        "fov_deg": {"type": "number", "minimum": 10, "maximum": 120}
+      }
+    },
+    "captions": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {"type": "string", "enum": ["none", "word_pop", "line"]},
+        "position": {"type": "string", "enum": ["bottom", "top"]}
+      }
+    },
+    "sensitivity_device": {"type": "string",
+      "enum": ["none", "cut_away", "silhouette", "symbol_object", "top_down_diagram", "offscreen_sound"]},
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "vec3": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}}
+  }
+}

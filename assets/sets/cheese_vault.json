@@ -1,0 +1,392 @@
+{
+  "asset_id": "cheese_vault",
+  "kind": "set",
+  "version": 1,
+  "bounds": {
+    "min": [
+      -6,
+      0,
+      -14
+    ],
+    "max": [
+      6,
+      4.5,
+      4
+    ]
+  },
+  "points": {
+    "target_empty": [
+      0.25,
+      1.2,
+      -12.0
+    ],
+    "vault_door": [
+      0.0,
+      0.0,
+      -12.5
+    ],
+    "entry": [
+      0.25,
+      0.0,
+      0.8
+    ],
+    "shelf_mark": [
+      -3.5,
+      0.0,
+      -6.0
+    ]
+  },
+  "paths": {
+    "vault_entry": [
+      [
+        0.25,
+        0,
+        0.8
+      ],
+      [
+        0.25,
+        0,
+        -4.0
+      ],
+      [
+        0.25,
+        0,
+        -9.5
+      ]
+    ],
+    "shelf_walk": [
+      [
+        -2.5,
+        0,
+        -2.0
+      ],
+      [
+        -3.2,
+        0,
+        -6.0
+      ]
+    ]
+  },
+  "camera_presets": {
+    "dolly": {
+      "from": [
+        0.25,
+        1.7,
+        4.0
+      ],
+      "to": [
+        0.25,
+        1.5,
+        -5.5
+      ],
+      "look_at": "target_empty"
+    },
+    "orbit": {
+      "center": [
+        0.25,
+        1.0,
+        -5.0
+      ],
+      "radius": 5.5,
+      "height": 2.2,
+      "start_deg": 200,
+      "end_deg": 160,
+      "look_at": [
+        0.25,
+        1.0,
+        -5.0
+      ]
+    },
+    "track_to": {
+      "offset": [
+        1.8,
+        1.6,
+        2.6
+      ]
+    },
+    "cut": {
+      "positions": [
+        [
+          4.5,
+          1.7,
+          -1.0
+        ],
+        [
+          -4.5,
+          2.4,
+          -9.0
+        ],
+        [
+          0.25,
+          1.9,
+          -3.0
+        ]
+      ],
+      "look_at": "target_empty"
+    }
+  },
+  "objects": [
+    {
+      "name": "floor",
+      "shape": "box",
+      "position": [
+        0,
+        -0.05,
+        -5
+      ],
+      "size": [
+        12,
+        0.1,
+        18
+      ],
+      "color": "#5b5347"
+    },
+    {
+      "name": "ceiling",
+      "shape": "box",
+      "position": [
+        0,
+        4.5,
+        -5
+      ],
+      "size": [
+        12,
+        0.1,
+        18
+      ],
+      "color": "#2c2a2f"
+    },
+    {
+      "name": "wall_l",
+      "shape": "box",
+      "position": [
+        -6,
+        2.25,
+        -5
+      ],
+      "size": [
+        0.2,
+        4.5,
+        18
+      ],
+      "color": "#7d7161"
+    },
+    {
+      "name": "wall_r",
+      "shape": "box",
+      "position": [
+        6,
+        2.25,
+        -5
+      ],
+      "size": [
+        0.2,
+        4.5,
+        18
+      ],
+      "color": "#7d7161"
+    },
+    {
+      "name": "wall_back",
+      "shape": "box",
+      "position": [
+        0,
+        2.25,
+        -14
+      ],
+      "size": [
+        12,
+        4.5,
+        0.2
+      ],
+      "color": "#6e6353"
+    },
+    {
+      "name": "vault_door",
+      "shape": "cylinder",
+      "position": [
+        0,
+        1.6,
+        -12.6
+      ],
+      "radius": 1.5,
+      "height": 0.35,
+      "segments": 48,
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "color": "#8e9aa8"
+    },
+    {
+      "name": "door_hub",
+      "shape": "cylinder",
+      "position": [
+        0,
+        1.6,
+        -12.35
+      ],
+      "radius": 0.35,
+      "height": 0.2,
+      "segments": 32,
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "color": "#c9a227"
+    },
+    {
+      "name": "shelf_l1",
+      "shape": "box",
+      "position": [
+        -4.8,
+        0.8,
+        -6
+      ],
+      "size": [
+        1.6,
+        0.08,
+        10
+      ],
+      "color": "#3f3326"
+    },
+    {
+      "name": "shelf_l2",
+      "shape": "box",
+      "position": [
+        -4.8,
+        1.9,
+        -6
+      ],
+      "size": [
+        1.6,
+        0.08,
+        10
+      ],
+      "color": "#3f3326"
+    },
+    {
+      "name": "shelf_r1",
+      "shape": "box",
+      "position": [
+        4.8,
+        0.8,
+        -6
+      ],
+      "size": [
+        1.6,
+        0.08,
+        10
+      ],
+      "color": "#3f3326"
+    },
+    {
+      "name": "shelf_r2",
+      "shape": "box",
+      "position": [
+        4.8,
+        1.9,
+        -6
+      ],
+      "size": [
+        1.6,
+        0.08,
+        10
+      ],
+      "color": "#3f3326"
+    },
+    {
+      "name": "cheese_a",
+      "shape": "cylinder",
+      "position": [
+        -4.8,
+        1.05,
+        -3
+      ],
+      "radius": 0.4,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#f2c230"
+    },
+    {
+      "name": "cheese_b",
+      "shape": "cylinder",
+      "position": [
+        -4.8,
+        1.05,
+        -6
+      ],
+      "radius": 0.4,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#f6d35b"
+    },
+    {
+      "name": "cheese_c",
+      "shape": "cylinder",
+      "position": [
+        -4.8,
+        2.15,
+        -8
+      ],
+      "radius": 0.4,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#e9b52a"
+    },
+    {
+      "name": "cheese_d",
+      "shape": "cylinder",
+      "position": [
+        4.8,
+        1.05,
+        -4
+      ],
+      "radius": 0.4,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#f2c230"
+    },
+    {
+      "name": "cheese_e",
+      "shape": "cylinder",
+      "position": [
+        4.8,
+        2.15,
+        -7
+      ],
+      "radius": 0.4,
+      "height": 0.3,
+      "segments": 32,
+      "color": "#f6d35b"
+    },
+    {
+      "name": "lamp_1",
+      "shape": "sphere",
+      "position": [
+        0,
+        4.1,
+        -2
+      ],
+      "radius": 0.25,
+      "segments": 32,
+      "color": "#fff1c2",
+      "emissive": "#ffe08a"
+    },
+    {
+      "name": "lamp_2",
+      "shape": "sphere",
+      "position": [
+        0,
+        4.1,
+        -8
+      ],
+      "radius": 0.25,
+      "segments": 32,
+      "color": "#fff1c2",
+      "emissive": "#ffe08a"
+    }
+  ]
+}

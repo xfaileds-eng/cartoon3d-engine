@@ -1,0 +1,27 @@
+{
+  "chunk_id": "000004200_002",
+  "start_ms": 4200,
+  "end_ms": 8400,
+  "text": "Người làm phô mai đẩy xe hàng vào kho ngầm của ngân hàng.",
+  "words": [
+    {"w": "Người", "start_ms": 4200, "end_ms": 4480},
+    {"w": "làm", "start_ms": 4480, "end_ms": 4700},
+    {"w": "phô", "start_ms": 4700, "end_ms": 4950},
+    {"w": "mai", "start_ms": 4950, "end_ms": 5250},
+    {"w": "đẩy", "start_ms": 5400, "end_ms": 5700},
+    {"w": "xe", "start_ms": 5700, "end_ms": 5900},
+    {"w": "hàng", "start_ms": 5900, "end_ms": 6250},
+    {"w": "vào", "start_ms": 6400, "end_ms": 6650},
+    {"w": "kho", "start_ms": 6650, "end_ms": 6900},
+    {"w": "ngầm", "start_ms": 6900, "end_ms": 7250},
+    {"w": "của", "start_ms": 7350, "end_ms": 7550},
+    {"w": "ngân", "start_ms": 7550, "end_ms": 7800},
+    {"w": "hàng.", "start_ms": 7800, "end_ms": 8300}
+  ],
+  "emotion": "neutral",
+  "sensitivity": 0,
+  "style": "toon",
+  "cast_refs": ["cheesemaker"],
+  "set_hint": "cheese_vault",
+  "fps": 24
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cartoon3d-engine/specs/asset.schema.json",
+  "title": "asset",
+  "description": "Một dòng trong assets/registry.json. Tài sản không có dòng ở đây thì không được render (cổng G2).",
+  "type": "object",
+  "required": ["asset_id", "kind", "source", "license", "commercial_ok", "redistribute_ok", "path", "version"],
+  "additionalProperties": false,
+  "properties": {
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+    "kind": {"type": "string", "enum": ["character", "set", "prop"]},
+    "source": {"type": "string", "enum": ["script", "cc0", "meshy", "tripo", "mixamo", "blenderkit", "other"]},
+    "license": {"type": "string"},
+    "commercial_ok": {"type": "boolean"},
+    "redistribute_ok": {"type": "boolean"},
+    "path": {"type": "string", "description": "Đường dẫn tương đối từ gốc repo tới file .json (hoặc file nặng trong assets/external)."},
+    "version": {"type": "integer", "minimum": 1},
+    "source_url": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}

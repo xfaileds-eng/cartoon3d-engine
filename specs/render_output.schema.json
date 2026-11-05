@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cartoon3d-engine/specs/render_output.schema.json",
+  "title": "render_output",
+  "description": "Kết quả engine trả về nhạc trưởng cho một chunk.",
+  "type": "object",
+  "required": ["chunk_id", "video_path", "frames", "duration_ms", "fps", "backend", "qa_report"],
+  "additionalProperties": false,
+  "properties": {
+    "chunk_id": {"type": "string", "pattern": "^[0-9]{9}_[0-9]{3}$"},
+    "video_path": {"type": "string"},
+    "frames": {"type": "integer", "minimum": 1},
+    "duration_ms": {"type": "integer", "minimum": 1},
+    "fps": {"type": "integer"},
+    "width": {"type": "integer"},
+    "height": {"type": "integer"},
+    "backend": {"type": "string", "enum": ["threejs", "blender"]},
+    "shots": {"type": "array", "items": {"type": "string"}},
+    "qa_report": {
+      "type": "object",
+      "required": ["passed", "gates"],
+      "properties": {
+        "passed": {"type": "boolean"},
+        "gates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "passed"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^G[1-8]$"},
+              "name": {"type": "string"},
+              "passed": {"type": "boolean"},
+              "details": {}
+            }
+          }
+        },
+        "contact_sheet": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "style_id": "toon",
+  "renderer": {"background": "#1b1f2a", "pixel_ratio": 1, "internal_scale": 1.0, "antialias": true},
+  "material": {"type": "toon", "gradient_steps": 4, "outline": {"enabled": true, "width": 0.018, "color": "#111111"}},
+  "geometry": {"min_segments": 32, "crease_angle_deg": 140},
+  "lights": [
+    {"type": "hemisphere", "sky": "#cfd8e3", "ground": "#3a3328", "intensity": 0.9},
+    {"type": "directional", "color": "#fff2d6", "intensity": 1.6, "position": [4, 8, 6], "shadow": true}
+  ],
+  "sensitivity": {"silhouette_color": "#0b0b10", "diagram_background": "#0f1420", "symbol_scale": 1.6}
+}

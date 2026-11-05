@@ -1,0 +1,260 @@
+{
+  "asset_id": "bank_hall",
+  "kind": "set",
+  "version": 1,
+  "bounds": {
+    "min": [
+      -8,
+      0,
+      -12
+    ],
+    "max": [
+      8,
+      6,
+      4
+    ]
+  },
+  "points": {
+    "counter_mark": [
+      0,
+      1.2,
+      -6.0
+    ],
+    "entry": [
+      0,
+      0,
+      2.5
+    ],
+    "desk_front": [
+      0,
+      0,
+      -4.2
+    ]
+  },
+  "paths": {
+    "to_counter": [
+      [
+        0,
+        0,
+        2.5
+      ],
+      [
+        0,
+        0,
+        -1.0
+      ],
+      [
+        0,
+        0,
+        -4.2
+      ]
+    ]
+  },
+  "camera_presets": {
+    "dolly": {
+      "from": [
+        0,
+        2.0,
+        4.0
+      ],
+      "to": [
+        0,
+        1.7,
+        -2.5
+      ],
+      "look_at": "counter_mark"
+    },
+    "orbit": {
+      "center": [
+        0,
+        1.0,
+        -4.0
+      ],
+      "radius": 6.0,
+      "height": 2.5,
+      "start_deg": 210,
+      "end_deg": 150,
+      "look_at": [
+        0,
+        1.0,
+        -4.0
+      ]
+    },
+    "track_to": {
+      "offset": [
+        2.0,
+        1.6,
+        3.0
+      ]
+    },
+    "cut": {
+      "positions": [
+        [
+          6,
+          2.0,
+          0
+        ],
+        [
+          -6,
+          2.5,
+          -8
+        ],
+        [
+          0,
+          1.8,
+          1.0
+        ]
+      ],
+      "look_at": "counter_mark"
+    }
+  },
+  "objects": [
+    {
+      "name": "floor",
+      "shape": "box",
+      "position": [
+        0,
+        -0.05,
+        -4
+      ],
+      "size": [
+        16,
+        0.1,
+        16
+      ],
+      "color": "#d8cfc0"
+    },
+    {
+      "name": "wall_back",
+      "shape": "box",
+      "position": [
+        0,
+        3,
+        -12
+      ],
+      "size": [
+        16,
+        6,
+        0.2
+      ],
+      "color": "#b9a98f"
+    },
+    {
+      "name": "wall_l",
+      "shape": "box",
+      "position": [
+        -8,
+        3,
+        -4
+      ],
+      "size": [
+        0.2,
+        6,
+        16
+      ],
+      "color": "#c4b59c"
+    },
+    {
+      "name": "wall_r",
+      "shape": "box",
+      "position": [
+        8,
+        3,
+        -4
+      ],
+      "size": [
+        0.2,
+        6,
+        16
+      ],
+      "color": "#c4b59c"
+    },
+    {
+      "name": "counter",
+      "shape": "box",
+      "position": [
+        0,
+        0.55,
+        -6
+      ],
+      "size": [
+        9,
+        1.1,
+        0.8
+      ],
+      "color": "#4a3526"
+    },
+    {
+      "name": "counter_top",
+      "shape": "box",
+      "position": [
+        0,
+        1.12,
+        -6
+      ],
+      "size": [
+        9.2,
+        0.06,
+        0.9
+      ],
+      "color": "#2e2119"
+    },
+    {
+      "name": "pillar_l",
+      "shape": "cylinder",
+      "position": [
+        -5,
+        3,
+        -2
+      ],
+      "radius": 0.4,
+      "height": 6,
+      "segments": 32,
+      "color": "#efe6d4"
+    },
+    {
+      "name": "pillar_r",
+      "shape": "cylinder",
+      "position": [
+        5,
+        3,
+        -2
+      ],
+      "radius": 0.4,
+      "height": 6,
+      "segments": 32,
+      "color": "#efe6d4"
+    },
+    {
+      "name": "clock",
+      "shape": "cylinder",
+      "position": [
+        0,
+        4.2,
+        -11.85
+      ],
+      "radius": 0.6,
+      "height": 0.1,
+      "segments": 48,
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "color": "#f8f4ea"
+    },
+    {
+      "name": "chandelier",
+      "shape": "sphere",
+      "position": [
+        0,
+        5.2,
+        -4
+      ],
+      "radius": 0.5,
+      "segments": 32,
+      "color": "#fff3cf",
+      "emissive": "#ffe49a"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# render — sản phẩm sinh ra, không đưa lên Git
+out/
+*.mp4
+*.mov
+
+# node / python
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# file nặng tải ngoài đi qua Git LFS hoặc NAS (xem .gitattributes)
+assets/external/*
+!assets/external/.gitkeep
+
+# editor
+.DS_Store
+.vscode/
+.idea/

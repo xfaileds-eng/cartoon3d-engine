@@ -1,0 +1,28 @@
+{
+  "chunk_id": "000091000_014",
+  "start_ms": 91000,
+  "end_ms": 96500,
+  "text": "Nhân viên ngân hàng gục xuống sau quầy. Không ai nghe thấy tiếng súng.",
+  "words": [
+    {"w": "Nhân", "start_ms": 91000, "end_ms": 91300},
+    {"w": "viên", "start_ms": 91300, "end_ms": 91600},
+    {"w": "ngân", "start_ms": 91600, "end_ms": 91850},
+    {"w": "hàng", "start_ms": 91850, "end_ms": 92200},
+    {"w": "gục", "start_ms": 92300, "end_ms": 92600},
+    {"w": "xuống", "start_ms": 92600, "end_ms": 92950},
+    {"w": "sau", "start_ms": 92950, "end_ms": 93200},
+    {"w": "quầy.", "start_ms": 93200, "end_ms": 93700},
+    {"w": "Không", "start_ms": 94000, "end_ms": 94300},
+    {"w": "ai", "start_ms": 94300, "end_ms": 94500},
+    {"w": "nghe", "start_ms": 94500, "end_ms": 94800},
+    {"w": "thấy", "start_ms": 94800, "end_ms": 95100},
+    {"w": "tiếng", "start_ms": 95100, "end_ms": 95450},
+    {"w": "súng.", "start_ms": 95450, "end_ms": 96000}
+  ],
+  "emotion": "tense",
+  "sensitivity": 3,
+  "style": "toon",
+  "cast_refs": ["banker"],
+  "set_hint": "bank_hall",
+  "fps": 24
+}

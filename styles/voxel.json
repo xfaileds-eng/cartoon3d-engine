@@ -1,0 +1,11 @@
+{
+  "style_id": "voxel",
+  "renderer": {"background": "#20242e", "pixel_ratio": 1, "internal_scale": 1.0, "antialias": false},
+  "material": {"type": "lambert_flat", "voxelize_sets": true, "voxel_size": 0.25, "outline": {"enabled": false}},
+  "geometry": {"min_segments": 32, "crease_angle_deg": 140},
+  "lights": [
+    {"type": "hemisphere", "sky": "#dfe6f0", "ground": "#2e2a24", "intensity": 1.0},
+    {"type": "directional", "color": "#ffffff", "intensity": 1.4, "position": [5, 9, 4], "shadow": true}
+  ],
+  "sensitivity": {"silhouette_color": "#0b0b10", "diagram_background": "#141821", "symbol_scale": 1.8}
+}
